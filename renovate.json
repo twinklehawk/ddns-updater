@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "enabledManagers": [
+    "github-actions",
+    "gradle",
+    "gradle-wrapper",
+    "dockerfile"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "schedule": ["* 6-11 * * *"]
+}
