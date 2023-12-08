@@ -1,0 +1,8 @@
+ddns-updater:
+  ddns:
+    - domain: example.com
+      provider: Namecheap
+      hosts:
+        - test
+  namecheap:
+    password: abc123
