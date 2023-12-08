@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.net.http.HttpClient
 
 class NamecheapDdnsIpUpdaterTest {
@@ -30,6 +31,20 @@ class NamecheapDdnsIpUpdaterTest {
     @AfterEach
     fun cleanup() {
         server.shutdown()
+    }
+
+    @Test
+    fun `throws an exception if the URL is empty`() {
+        assertThrows<IllegalStateException> {
+            NamecheapDdnsIpUpdater(httpClient, NamecheapConfig("", "test-password"))
+        }
+    }
+
+    @Test
+    fun `throws an exception if the password is empty`() {
+        assertThrows<IllegalStateException> {
+            NamecheapDdnsIpUpdater(httpClient, NamecheapConfig("https://test", null))
+        }
     }
 
     @Test

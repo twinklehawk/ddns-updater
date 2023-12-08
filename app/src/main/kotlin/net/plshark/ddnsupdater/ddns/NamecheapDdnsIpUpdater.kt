@@ -17,6 +17,11 @@ class NamecheapDdnsIpUpdater(
 ) : DdnsProviderIpUpdater {
     private val log = LoggerFactory.getLogger(NamecheapDdnsIpUpdater::class.java)
 
+    init {
+        check(config.url.isNotEmpty()) { "Namecheap URL cannot be empty" }
+        check(!config.password.isNullOrEmpty()) { "Namecheap password cannot be empty" }
+    }
+
     override fun canHandle(provider: DdnsProvider) = provider == DdnsProvider.Namecheap
 
     override suspend fun updateHostIp(
