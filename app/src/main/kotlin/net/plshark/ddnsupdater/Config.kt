@@ -19,7 +19,6 @@ data class DdnsEntryConfig(
 )
 
 data class NamecheapConfig(
-    val enabled: Boolean = false,
     val url: String = "https://dynamicdns.park-your-domain.com",
     val password: String? = null,
 )
