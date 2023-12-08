@@ -1,0 +1,49 @@
+name: Deploy release
+on:
+  release:
+    types: [ published ]
+jobs:
+  docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            .gradle/configuration-cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK
+        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93 # v4.0.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Build jar
+        run: ./gradlew assemble --no-daemon
+      - name: Build docker image
+        run: |
+          cd app
+          TAG_NAME=${GITHUB_REF#"refs/tags/"}
+          docker build -t ddns-updater \
+            --label="org.opencontainers.image.version=$TAG_NAME" \
+            --label="org.opencontainers.image.revision=$GITHUB_SHA" \
+            --label="org.opencontainers.image.created=$(date +'%Y-%m-%dT%H:%M:%S')" \
+            .
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Publish docker images
+        run: |
+          TAG_NAME=${GITHUB_REF#"refs/tags/"}
+          # strip "v" prefix from tag name
+          TAG_NAME=$(echo $TAG_NAME | sed -e 's/^v//')
+          echo "Publishing image to ghcr.io/twinklehawk/ddns-updater:$TAG_NAME"
+          docker tag ddns-updater ghcr.io/twinklehawk/ddns-updater:$TAG_NAME
+          docker tag ddns-updater ghcr.io/twinklehawk/ddns-updater:latest
+          docker push ghcr.io/twinklehawk/ddns-updater:$TAG_NAME
+          docker push ghcr.io/twinklehawk/ddns-updater:latest
