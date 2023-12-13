@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.9_9-jdk@sha256:3a0871a022ac34dd971148604c825b87c9e6678ccefd0b7e769add6f8ec11417
+FROM eclipse-temurin:17.0.9_9-jdk@sha256:8f7407f347796b01edaaae559e50d73407fa5e210e2f93470a1bfe3ae698bc2e
 
 LABEL org.opencontainers.image.title=ddns-updater
 LABEL org.opencontainers.image.url=https://github.com/twinklehawk/ddns-updater
