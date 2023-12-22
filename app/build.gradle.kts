@@ -17,7 +17,7 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:3.2.0")
-        mavenBom("org.jetbrains.kotlin:kotlin-bom:1.9.21")
+        mavenBom("org.jetbrains.kotlin:kotlin-bom:1.9.22")
         mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3")
     }
     dependencies {
