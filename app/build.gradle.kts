@@ -7,7 +7,7 @@ plugins {
     id("org.springframework.boot") version "3.2.1"
     jacoco
     id("io.gitlab.arturbosch.detekt") version "1.23.4"
-    id("org.jmailen.kotlinter") version "4.1.0"
+    id("org.jmailen.kotlinter") version "4.1.1"
 }
 
 repositories {
