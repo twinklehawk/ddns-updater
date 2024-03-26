@@ -6,7 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("org.springframework.boot") version "3.2.4"
     jacoco
-    id("io.gitlab.arturbosch.detekt") version "1.23.5"
+    id("io.gitlab.arturbosch.detekt") version "1.23.6"
     id("org.jmailen.kotlinter") version "4.3.0"
 }
 
@@ -68,7 +68,7 @@ tasks.jacocoTestReport {
 configurations.matching { it.name == "detekt" }.all {
     resolutionStrategy.eachDependency {
         if (requested.group == "org.jetbrains.kotlin") {
-            useVersion("1.9.22")
+            useVersion("1.9.23")
         }
     }
 }
