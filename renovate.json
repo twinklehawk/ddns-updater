@@ -12,5 +12,11 @@
   "labels": [
     "dependencies"
   ],
-  "schedule": ["* 6-11 * * 1"]
+  "schedule": ["* 4-11 * * 0,3,6"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "digest"],
+      "automerge": true
+    }
+  ]
 }
