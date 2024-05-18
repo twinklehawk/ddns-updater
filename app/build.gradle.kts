@@ -21,7 +21,7 @@ dependencyManagement {
         mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1")
     }
     dependencies {
-        dependency("io.mockk:mockk:1.13.10")
+        dependency("io.mockk:mockk:1.13.11")
         dependency("com.google.guava:guava:33.2.0-jre")
     }
 }
