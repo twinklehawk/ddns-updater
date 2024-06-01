@@ -22,7 +22,7 @@ dependencyManagement {
     }
     dependencies {
         dependency("io.mockk:mockk:1.13.11")
-        dependency("com.google.guava:guava:33.2.0-jre")
+        dependency("com.google.guava:guava:33.2.1-jre")
     }
 }
 
