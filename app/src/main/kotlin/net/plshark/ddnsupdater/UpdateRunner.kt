@@ -25,13 +25,13 @@ class UpdateRunner(
 
         runBlocking {
             val newIp = ipLookup.getLocalIpv4()
-            config.ddns.flatMap { entry -> entry.hosts.map { Pair(it, entry) } }
+            config.ddns
+                .flatMap { entry -> entry.hosts.map { Pair(it, entry) } }
                 .map {
                     launch(Dispatchers.Default) {
                         processHost(it.first, it.second, newIp)
                     }
-                }
-                .joinAll()
+                }.joinAll()
         }
     }
 

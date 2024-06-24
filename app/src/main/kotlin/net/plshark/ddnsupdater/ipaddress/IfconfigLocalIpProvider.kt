@@ -20,7 +20,8 @@ class IfconfigLocalIpProvider(
 
     override suspend fun getLocalIpv4(): Inet4Address {
         val request =
-            HttpRequest.newBuilder()
+            HttpRequest
+                .newBuilder()
                 .uri(URI.create(config.url))
                 .header("Accept", "text/plain")
                 .GET()
