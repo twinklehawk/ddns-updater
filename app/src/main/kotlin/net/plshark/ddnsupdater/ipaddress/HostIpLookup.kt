@@ -15,11 +15,10 @@ class HostIpLookup(
         check(ipProviders.isNotEmpty()) { "At least one IP provider must be enabled" }
     }
 
-    fun getIpv4ForHost(host: String): Inet4Address? {
-        return getIpsForHost(host)
+    fun getIpv4ForHost(host: String): Inet4Address? =
+        getIpsForHost(host)
             .firstOrNull { it is Inet4Address }
             ?.let { it as Inet4Address }
-    }
 
     @Suppress("TooGenericExceptionCaught")
     suspend fun getLocalIpv4(): Inet4Address {
@@ -33,12 +32,11 @@ class HostIpLookup(
         throw IpLookupException("Failed to look up local IP address using configured providers")
     }
 
-    private fun getIpsForHost(host: String): Array<InetAddress> {
-        return try {
+    private fun getIpsForHost(host: String): Array<InetAddress> =
+        try {
             InetAddress.getAllByName(host)
         } catch (e: UnknownHostException) {
             log.debug("No IP addresses found for host {}", host, e)
             emptyArray<InetAddress>()
         }
-    }
 }

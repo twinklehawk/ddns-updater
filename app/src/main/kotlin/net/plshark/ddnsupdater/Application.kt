@@ -26,7 +26,8 @@ class Application {
         httpClient: HttpClient,
     ): DdnsIpUpdater {
         val providers =
-            config.ddns.map { it.provider }
+            config.ddns
+                .map { it.provider }
                 .distinct()
                 .map {
                     when (it) {
@@ -43,7 +44,8 @@ class Application {
         httpClient: HttpClient,
     ): HostIpLookup {
         val providers =
-            config.ipProviders.distinct()
+            config.ipProviders
+                .distinct()
                 .map {
                     when (it) {
                         "ifconfig" -> IfconfigLocalIpProvider(httpClient, config.ifconfig)

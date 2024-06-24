@@ -43,7 +43,8 @@ class NamecheapDdnsIpUpdater(
     ) {
         val url = "${config.url}/update?host=$host&domain=$domain&password=${config.password}&ip=$ip"
         val request =
-            HttpRequest.newBuilder()
+            HttpRequest
+                .newBuilder()
                 .uri(URI.create(url))
                 .GET()
                 .build()
