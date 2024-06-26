@@ -44,10 +44,15 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
 
