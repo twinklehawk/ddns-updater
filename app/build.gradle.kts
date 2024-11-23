@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.spring") version "2.0.21"
     id("io.spring.dependency-management") version "1.1.6"
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.4.0"
     jacoco
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("org.jmailen.kotlinter") version "4.5.0"
@@ -16,7 +16,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.5")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:3.4.0")
         mavenBom("org.jetbrains.kotlin:kotlin-bom:2.0.21")
         mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0")
     }
