@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.spring") version "2.0.21"
@@ -23,6 +21,7 @@ dependencyManagement {
     dependencies {
         dependency("io.mockk:mockk:1.13.13")
         dependency("com.google.guava:guava:33.3.1-jre")
+        dependency("com.squareup.okhttp3:mockwebserver:4.12.0")
     }
 }
 
