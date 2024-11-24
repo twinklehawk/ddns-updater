@@ -1,10 +1,8 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.spring") version "2.0.21"
     id("io.spring.dependency-management") version "1.1.6"
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.4.0"
     jacoco
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("org.jmailen.kotlinter") version "4.5.0"
@@ -16,13 +14,14 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.3.5")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:3.4.0")
         mavenBom("org.jetbrains.kotlin:kotlin-bom:2.0.21")
         mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.9.0")
     }
     dependencies {
         dependency("io.mockk:mockk:1.13.13")
         dependency("com.google.guava:guava:33.3.1-jre")
+        dependency("com.squareup.okhttp3:mockwebserver:4.12.0")
     }
 }
 
