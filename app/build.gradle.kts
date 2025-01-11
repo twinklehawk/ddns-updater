@@ -19,7 +19,7 @@ dependencyManagement {
         mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.1")
     }
     dependencies {
-        dependency("io.mockk:mockk:1.13.14")
+        dependency("io.mockk:mockk:1.13.16")
         dependency("com.google.guava:guava:33.4.0-jre")
         dependency("com.squareup.okhttp3:mockwebserver:4.12.0")
     }
