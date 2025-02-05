@@ -1,46 +1,36 @@
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.spring") version "2.1.10"
-    id("io.spring.dependency-management") version "1.1.7"
-    id("org.springframework.boot") version "3.4.2"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.spring.boot)
     jacoco
-    id("io.gitlab.arturbosch.detekt") version "1.23.7"
-    id("org.jmailen.kotlinter") version "5.0.1"
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlinter)
 }
 
 repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:3.4.2")
-        mavenBom("org.jetbrains.kotlin:kotlin-bom:2.1.10")
-        mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.10.1")
-    }
-    dependencies {
-        dependency("io.mockk:mockk:1.13.16")
-        dependency("com.google.guava:guava:33.4.0-jre")
-        dependency("com.squareup.okhttp3:mockwebserver:4.12.0")
-    }
-}
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation(kotlin("reflect"))
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.google.guava:guava")
-    implementation("org.slf4j:slf4j-api")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation(platform(libs.spring.boot.bom))
+    implementation(platform(libs.kotlin.bom))
+    implementation(platform(libs.kotlinx.coroutines.bom))
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("io.mockk:mockk")
-    testImplementation("org.assertj:assertj-core")
-    testImplementation("com.squareup.okhttp3:mockwebserver")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    implementation(libs.spring.boot.starter)
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.guava)
+    implementation(libs.slf4j.api)
+    implementation(libs.kotlinx.coroutines.reactor)
+    runtimeOnly(libs.logback)
+
+    testImplementation(libs.junit.api)
+    testImplementation(libs.mockk)
+    testImplementation(libs.assertj)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testRuntimeOnly(libs.junit.engine)
 }
 
 java {
