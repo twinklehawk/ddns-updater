@@ -58,11 +58,3 @@ tasks.jacocoTestReport {
         csv.required.set(false)
     }
 }
-
-configurations.matching { it.name == "detekt" }.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "org.jetbrains.kotlin") {
-            useVersion("2.0.10")
-        }
-    }
-}
