@@ -25,12 +25,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.reactor)
     runtimeOnly(libs.logback)
 
-    testImplementation(libs.junit.api)
+    testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.assertj)
     testImplementation(libs.mockwebserver)
     testImplementation(libs.kotlinx.coroutines.test)
-    testRuntimeOnly(libs.junit.engine)
+    testRuntimeOnly(libs.junit.launcher)
 }
 
 java {
