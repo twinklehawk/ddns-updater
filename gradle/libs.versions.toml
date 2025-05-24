@@ -6,14 +6,14 @@ kotlinter = "5.1.0"
 kotlinx-coroutines = "1.10.2"
 mockk = "1.14.2"
 mockwebserver = "4.12.0"
-spring-boot = "3.4.5"
+spring-boot = "3.5.0"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
-junit-api = { module = "org.junit.jupiter:junit-jupiter-api" }
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit = { module = "org.junit.jupiter:junit-jupiter" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8"}
