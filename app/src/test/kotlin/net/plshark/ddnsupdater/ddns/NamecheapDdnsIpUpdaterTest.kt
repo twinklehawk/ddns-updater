@@ -2,9 +2,9 @@ package net.plshark.ddnsupdater.ddns
 
 import com.google.common.net.InetAddresses
 import kotlinx.coroutines.test.runTest
+import mockwebserver3.MockResponse
+import mockwebserver3.MockWebServer
 import net.plshark.ddnsupdater.NamecheapConfig
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +30,7 @@ class NamecheapDdnsIpUpdaterTest {
 
     @AfterEach
     fun cleanup() {
-        server.shutdown()
+        server.close()
     }
 
     @Test
@@ -61,7 +61,7 @@ class NamecheapDdnsIpUpdaterTest {
 
             val request = server.takeRequest()
             assertThat(request.method).isEqualTo("GET")
-            assertThat(request.path)
+            assertThat(request.target)
                 .isEqualTo("/update?host=test&domain=domain.com&password=test-password&ip=127.0.0.1")
         }
 
