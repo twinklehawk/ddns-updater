@@ -2,9 +2,9 @@ package net.plshark.ddnsupdater.ipaddress
 
 import com.google.common.net.InetAddresses
 import kotlinx.coroutines.test.runTest
+import mockwebserver3.MockResponse
+import mockwebserver3.MockWebServer
 import net.plshark.ddnsupdater.IfconfigConfig
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -29,7 +29,7 @@ class IfconfigLocalIpProviderTest {
 
     @AfterEach
     fun cleanup() {
-        server.shutdown()
+        server.close()
     }
 
     @Test
@@ -40,7 +40,7 @@ class IfconfigLocalIpProviderTest {
     @Test
     fun `retrieves the local IP from the configured URL`() =
         runTest {
-            server.enqueue(MockResponse().setBody("127.0.0.1"))
+            server.enqueue(MockResponse(body = "127.0.0.1"))
 
             assertThat(provider.getLocalIpv4()).isEqualTo(InetAddresses.forString("127.0.0.1"))
 
