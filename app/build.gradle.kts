@@ -16,7 +16,7 @@ dependencies {
     implementation(platform(libs.kotlin.bom))
     implementation(platform(libs.kotlinx.coroutines.bom))
 
-    implementation(libs.spring.boot.starter)
+    implementation(libs.spring.boot.starter.webclient)
     implementation(libs.jackson.kotlin)
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.stdlib)

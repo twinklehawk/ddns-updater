@@ -59,8 +59,7 @@ class Application {
 }
 
 fun main(args: Array<String>) {
-    @Suppress("SpreadOperator")
-    runApplication<Application>(*args) {
-        webApplicationType = WebApplicationType.NONE
+    runApplication<Application>(args = args) {
+        setWebApplicationType(WebApplicationType.NONE)
     }
 }
