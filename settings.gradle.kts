@@ -1,3 +1,12 @@
 rootProject.name = "ddns-updater"
 
-include("app")
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+  }
+}
+
+include(
+  "app",
+  "test-utils",
+)
