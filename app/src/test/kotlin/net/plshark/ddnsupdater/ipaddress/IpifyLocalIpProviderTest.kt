@@ -13,39 +13,39 @@ import org.junit.jupiter.api.assertThrows
 import java.net.http.HttpClient
 
 class IpifyLocalIpProviderTest {
-    private val server = MockWebServer()
-    private val httpClient = HttpClient.newHttpClient()
-    private lateinit var provider: IpifyLocalIpProvider
+  private val server = MockWebServer()
+  private val httpClient = HttpClient.newHttpClient()
+  private lateinit var provider: IpifyLocalIpProvider
 
-    @BeforeEach
-    fun setup() {
-        server.start()
-        val config =
-            IpifyConfig(
-                url = server.url("/").toString().dropLast(1),
-            )
-        provider = IpifyLocalIpProvider(httpClient, config)
+  @BeforeEach
+  fun setup() {
+    server.start()
+    val config =
+      IpifyConfig(
+        url = server.url("/").toString().dropLast(1),
+      )
+    provider = IpifyLocalIpProvider(httpClient, config)
+  }
+
+  @AfterEach
+  fun cleanup() {
+    server.close()
+  }
+
+  @Test
+  fun `throws an exception if the configured URL is empty`() {
+    assertThrows<IllegalStateException> { IpifyLocalIpProvider(httpClient, IpifyConfig("")) }
+  }
+
+  @Test
+  fun `retrieves the local IP from the configured URL`() =
+    runTest {
+      server.enqueue(MockResponse(body = "127.0.0.1"))
+
+      assertThat(provider.getLocalIpv4()).isEqualTo(InetAddresses.forString("127.0.0.1"))
+
+      val request = server.takeRequest()
+      assertThat(request.method).isEqualTo("GET")
+      assertThat(request.headers["Accept"]).isEqualTo("text/plain")
     }
-
-    @AfterEach
-    fun cleanup() {
-        server.close()
-    }
-
-    @Test
-    fun `throws an exception if the configured URL is empty`() {
-        assertThrows<IllegalStateException> { IpifyLocalIpProvider(httpClient, IpifyConfig("")) }
-    }
-
-    @Test
-    fun `retrieves the local IP from the configured URL`() =
-        runTest {
-            server.enqueue(MockResponse(body = "127.0.0.1"))
-
-            assertThat(provider.getLocalIpv4()).isEqualTo(InetAddresses.forString("127.0.0.1"))
-
-            val request = server.takeRequest()
-            assertThat(request.method).isEqualTo("GET")
-            assertThat(request.headers["Accept"]).isEqualTo("text/plain")
-        }
 }

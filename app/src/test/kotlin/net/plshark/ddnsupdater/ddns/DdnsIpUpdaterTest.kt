@@ -11,29 +11,29 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class DdnsIpUpdaterTest {
-    private val provider = mockk<DdnsProviderIpUpdater>()
-    private val updater = DdnsIpUpdater(listOf(provider))
+  private val provider = mockk<DdnsProviderIpUpdater>()
+  private val updater = DdnsIpUpdater(listOf(provider))
 
-    @Test
-    fun `finds a matching provider and updates the host IP`() =
-        runTest {
-            val ip = InetAddresses.forString("127.0.0.1")
-            every { provider.canHandle(DdnsProvider.Namecheap) } returns true
-            coJustRun { provider.updateHostIp(any(), any(), any()) }
+  @Test
+  fun `finds a matching provider and updates the host IP`() =
+    runTest {
+      val ip = InetAddresses.forString("127.0.0.1")
+      every { provider.canHandle(DdnsProvider.Namecheap) } returns true
+      coJustRun { provider.updateHostIp(any(), any(), any()) }
 
-            updater.updateHostIp("test", "domain.com", DdnsProvider.Namecheap, ip)
+      updater.updateHostIp("test", "domain.com", DdnsProvider.Namecheap, ip)
 
-            coVerify { provider.updateHostIp("test", "domain.com", ip) }
-        }
+      coVerify { provider.updateHostIp("test", "domain.com", ip) }
+    }
 
-    @Test
-    fun `throws an exception if nothing can handle the provider`() =
-        runTest {
-            val ip = InetAddresses.forString("127.0.0.1")
-            every { provider.canHandle(DdnsProvider.Namecheap) } returns false
+  @Test
+  fun `throws an exception if nothing can handle the provider`() =
+    runTest {
+      val ip = InetAddresses.forString("127.0.0.1")
+      every { provider.canHandle(DdnsProvider.Namecheap) } returns false
 
-            assertThrows<ConfigurationException> {
-                updater.updateHostIp("test", "domain.com", DdnsProvider.Namecheap, ip)
-            }
-        }
+      assertThrows<ConfigurationException> {
+        updater.updateHostIp("test", "domain.com", DdnsProvider.Namecheap, ip)
+      }
+    }
 }

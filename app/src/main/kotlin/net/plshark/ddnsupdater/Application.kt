@@ -14,52 +14,57 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import java.net.http.HttpClient
 
+/** Main application class. */
 @SpringBootApplication
 @EnableConfigurationProperties(Config::class)
 class Application {
-    @Bean
-    fun httpClient(): HttpClient = HttpClient.newHttpClient()
+  /** Creates an [HttpClient] instance. */
+  @Bean
+  fun httpClient(): HttpClient = HttpClient.newHttpClient()
 
-    @Bean
-    fun ddnsIpUpdater(
-        config: Config,
-        httpClient: HttpClient,
-    ): DdnsIpUpdater {
-        val providers =
-            config.ddns
-                .map { it.provider }
-                .distinct()
-                .map {
-                    when (it) {
-                        DdnsProvider.Namecheap -> NamecheapDdnsIpUpdater(httpClient, config.namecheap)
-                    }
-                }
+  /** Creates a [DdnsIpUpdater] instance. */
+  @Bean
+  fun ddnsIpUpdater(
+    config: Config,
+    httpClient: HttpClient,
+  ): DdnsIpUpdater {
+    val providers =
+      config.ddns
+        .map { it.provider }
+        .distinct()
+        .map {
+          when (it) {
+            DdnsProvider.Namecheap -> NamecheapDdnsIpUpdater(httpClient, config.namecheap)
+          }
+        }
 
-        return DdnsIpUpdater(providers)
-    }
+    return DdnsIpUpdater(providers)
+  }
 
-    @Bean
-    fun hostIpLookup(
-        config: Config,
-        httpClient: HttpClient,
-    ): HostIpLookup {
-        val providers =
-            config.ipProviders
-                .distinct()
-                .map {
-                    when (it) {
-                        "ifconfig" -> IfconfigLocalIpProvider(httpClient, config.ifconfig)
-                        "ipify" -> IpifyLocalIpProvider(httpClient, config.ipifyConfig)
-                        else -> throw ConfigurationException("Unknown IP provider $it")
-                    }
-                }.toList()
+  /** Creates a [HostIpLookup] instance. */
+  @Bean
+  fun hostIpLookup(
+    config: Config,
+    httpClient: HttpClient,
+  ): HostIpLookup {
+    val providers =
+      config.ipProviders
+        .distinct()
+        .map {
+          when (it) {
+            "ifconfig" -> IfconfigLocalIpProvider(httpClient, config.ifconfig)
+            "ipify" -> IpifyLocalIpProvider(httpClient, config.ipifyConfig)
+            else -> throw ConfigurationException("Unknown IP provider $it")
+          }
+        }.toList()
 
-        return HostIpLookup(providers)
-    }
+    return HostIpLookup(providers)
+  }
 }
 
+/** Application entry point. */
 fun main(args: Array<String>) {
-    runApplication<Application>(args = args) {
-        setWebApplicationType(WebApplicationType.NONE)
-    }
+  runApplication<Application>(args = args) {
+    setWebApplicationType(WebApplicationType.NONE)
+  }
 }
