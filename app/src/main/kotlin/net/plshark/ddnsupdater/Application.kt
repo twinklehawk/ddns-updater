@@ -11,16 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import java.net.http.HttpClient
+import org.springframework.web.reactive.function.client.WebClient
 
 /** Main application class. */
 @SpringBootApplication
 @EnableConfigurationProperties(Settings::class)
 class Application {
-  /** Creates an [HttpClient] instance. */
-  @Bean
-  fun httpClient(): HttpClient = HttpClient.newHttpClient()
-
   /** Creates a [DdnsIpUpdater] instance. */
   @Bean
   fun ddnsIpUpdater(updaters: List<DdnsProviderIpUpdater>): DdnsIpUpdater = DdnsIpUpdater(updaters)
@@ -29,15 +25,16 @@ class Application {
   @Bean
   fun hostIpLookup(
     settings: Settings,
-    httpClient: HttpClient,
+    webClientBuilder: WebClient.Builder,
   ): HostIpLookup {
+    val webClient = webClientBuilder.build()
     val providers =
       settings.ipProviders
         .distinct()
         .map {
           when (it) {
-            "ifconfig" -> IfconfigLocalIpProvider(httpClient, settings.ifconfig)
-            "ipify" -> IpifyLocalIpProvider(httpClient, settings.ipify)
+            "ifconfig" -> IfconfigLocalIpProvider(webClient, settings.ifconfig)
+            "ipify" -> IpifyLocalIpProvider(webClient, settings.ipify)
             else -> throw ConfigurationException("Unknown IP provider $it")
           }
         }.toList()

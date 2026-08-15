@@ -10,11 +10,11 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.net.http.HttpClient
+import org.springframework.web.reactive.function.client.WebClient
 
 class IfconfigLocalIpProviderTest {
   private val server = MockWebServer()
-  private val httpClient = HttpClient.newHttpClient()
+  private val httpClient = WebClient.create()
   private lateinit var provider: IfconfigLocalIpProvider
 
   @BeforeEach
