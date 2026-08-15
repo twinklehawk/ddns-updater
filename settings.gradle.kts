@@ -8,5 +8,6 @@ dependencyResolutionManagement {
 
 include(
   "app",
+  "namecheap-client",
   "test-utils",
 )
