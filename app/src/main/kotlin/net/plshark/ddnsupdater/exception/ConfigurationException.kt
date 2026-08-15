@@ -1,5 +1,6 @@
 package net.plshark.ddnsupdater.exception
 
+/** A [RuntimeException] indicating a problem with the application configuration. */
 class ConfigurationException(
-    message: String,
+  message: String,
 ) : RuntimeException(message)

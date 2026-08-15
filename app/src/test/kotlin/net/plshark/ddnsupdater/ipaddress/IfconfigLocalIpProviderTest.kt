@@ -4,48 +4,48 @@ import com.google.common.net.InetAddresses
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
-import net.plshark.ddnsupdater.IfconfigConfig
+import net.plshark.ddnsupdater.IfconfigSettings
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.net.http.HttpClient
+import org.springframework.web.reactive.function.client.WebClient
 
 class IfconfigLocalIpProviderTest {
-    private val server = MockWebServer()
-    private val httpClient = HttpClient.newHttpClient()
-    private lateinit var provider: IfconfigLocalIpProvider
+  private val server = MockWebServer()
+  private val httpClient = WebClient.create()
+  private lateinit var provider: IfconfigLocalIpProvider
 
-    @BeforeEach
-    fun setup() {
-        server.start()
-        val config =
-            IfconfigConfig(
-                url = server.url("/").toString().dropLast(1),
-            )
-        provider = IfconfigLocalIpProvider(httpClient, config)
+  @BeforeEach
+  fun setup() {
+    server.start()
+    val config =
+      IfconfigSettings(
+        url = server.url("/").toString().dropLast(1),
+      )
+    provider = IfconfigLocalIpProvider(httpClient, config)
+  }
+
+  @AfterEach
+  fun cleanup() {
+    server.close()
+  }
+
+  @Test
+  fun `throws an exception if the configured URL is empty`() {
+    assertThrows<IllegalStateException> { IfconfigLocalIpProvider(httpClient, IfconfigSettings("")) }
+  }
+
+  @Test
+  fun `retrieves the local IP from the configured URL`() =
+    runTest {
+      server.enqueue(MockResponse(body = "127.0.0.1"))
+
+      assertThat(provider.getLocalIpv4()).isEqualTo(InetAddresses.forString("127.0.0.1"))
+
+      val request = server.takeRequest()
+      assertThat(request.method).isEqualTo("GET")
+      assertThat(request.headers["Accept"]).isEqualTo("text/plain")
     }
-
-    @AfterEach
-    fun cleanup() {
-        server.close()
-    }
-
-    @Test
-    fun `throws an exception if the configured URL is empty`() {
-        assertThrows<IllegalStateException> { IfconfigLocalIpProvider(httpClient, IfconfigConfig("")) }
-    }
-
-    @Test
-    fun `retrieves the local IP from the configured URL`() =
-        runTest {
-            server.enqueue(MockResponse(body = "127.0.0.1"))
-
-            assertThat(provider.getLocalIpv4()).isEqualTo(InetAddresses.forString("127.0.0.1"))
-
-            val request = server.takeRequest()
-            assertThat(request.method).isEqualTo("GET")
-            assertThat(request.headers["Accept"]).isEqualTo("text/plain")
-        }
 }

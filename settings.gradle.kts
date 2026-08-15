@@ -1,3 +1,13 @@
 rootProject.name = "ddns-updater"
 
-include("app")
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+  }
+}
+
+include(
+  "app",
+  "namecheap-client",
+  "test-utils",
+)

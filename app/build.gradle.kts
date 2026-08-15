@@ -1,60 +1,29 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.spring)
-    alias(libs.plugins.spring.boot)
-    jacoco
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.kotlinter)
+  id("project-conventions")
+  alias(libs.plugins.kotlin.spring)
+  alias(libs.plugins.spring.boot)
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation(platform(libs.spring.boot.bom))
-    implementation(platform(libs.kotlin.bom))
-    implementation(platform(libs.kotlinx.coroutines.bom))
+  implementation(project(":namecheap-client"))
+  implementation(libs.guava)
+  implementation(libs.jackson.kotlin)
+  implementation(libs.kotlin.reflect)
+  implementation(libs.kotlin.stdlib)
+  implementation(libs.kotlinx.coroutines.reactor)
+  implementation(libs.slf4j.api)
+  implementation(libs.spring.boot.starter.webclient)
+  runtimeOnly(libs.logback)
 
-    implementation(libs.spring.boot.starter.webclient)
-    implementation(libs.jackson.kotlin)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.guava)
-    implementation(libs.slf4j.api)
-    implementation(libs.kotlinx.coroutines.reactor)
-    runtimeOnly(libs.logback)
-
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.assertj)
-    testImplementation(libs.mockwebserver)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testRuntimeOnly(libs.junit.launcher)
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
-        csv.required.set(false)
-    }
+  testImplementation(project(":test-utils"))
+  testImplementation(libs.assertj)
+  testImplementation(libs.junit)
+  testImplementation(libs.kotlinx.coroutines.test)
+  testImplementation(libs.mockk)
+  testImplementation(libs.mockwebserver)
+  testRuntimeOnly(libs.junit.launcher)
 }
