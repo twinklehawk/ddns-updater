@@ -13,18 +13,18 @@ import java.net.InetAddress
 /** A [CommandLineRunner] that updates the DDNS entries for the configured hosts. */
 @Component
 class UpdateRunner(
-  private val config: Config,
+  private val settings: Settings,
   private val ipLookup: HostIpLookup,
   private val ddnsIpUpdater: DdnsIpUpdater,
 ) : CommandLineRunner {
   private val log = LoggerFactory.getLogger(Application::class.java)
 
   override fun run(vararg args: String) {
-    validateConfig(config)
+    validateConfig(settings)
 
     runBlocking {
       val newIp = ipLookup.getLocalIpv4()
-      config.ddns
+      settings.ddns
         .flatMap { entry -> entry.hosts.map { Pair(it, entry) } }
         .forEach { processHost(it.first, it.second, newIp) }
     }
@@ -33,7 +33,7 @@ class UpdateRunner(
   @Suppress("TooGenericExceptionCaught")
   private suspend fun processHost(
     host: String,
-    ddnsEntry: DdnsEntryConfig,
+    ddnsEntry: DdnsEntrySettings,
     newIp: InetAddress,
   ) {
     val hostname = "$host.${ddnsEntry.domain}"
@@ -52,8 +52,8 @@ class UpdateRunner(
     }
   }
 
-  private fun validateConfig(config: Config) {
-    if (config.ddns.isEmpty()) {
+  private fun validateConfig(settings: Settings) {
+    if (settings.ddns.isEmpty()) {
       throw ConfigurationException("No ddns entries configured")
     }
   }

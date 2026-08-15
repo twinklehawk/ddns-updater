@@ -5,33 +5,33 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 /** Settings for the ddns-updater application. */
 @ConfigurationProperties("ddns-updater")
-data class Config(
-  val ddns: List<DdnsEntryConfig>,
+data class Settings(
+  val ddns: List<DdnsEntrySettings>,
   val ipProviders: List<String> = listOf("ipify", "ifconfig"),
-  val namecheap: NamecheapConfig = NamecheapConfig(),
-  val ifconfig: IfconfigConfig = IfconfigConfig(),
-  val ipifyConfig: IpifyConfig = IpifyConfig(),
+  val namecheap: NamecheapSettings = NamecheapSettings(),
+  val ifconfig: IfconfigSettings = IfconfigSettings(),
+  val ipify: IpifySettings = IpifySettings(),
 )
 
 /** Settings for what hosts should have DDNS entries updated. */
-data class DdnsEntryConfig(
+data class DdnsEntrySettings(
   val domain: String,
   val provider: DdnsProvider,
   val hosts: List<String>,
 )
 
 /** Settings for accessing Namecheap DDNS. */
-data class NamecheapConfig(
+data class NamecheapSettings(
   val url: String = "https://dynamicdns.park-your-domain.com",
   val password: String? = null,
 )
 
 /** Settings for fetching the current IP address using ifconfig. */
-data class IfconfigConfig(
+data class IfconfigSettings(
   val url: String = "https://ifconfig.me/ip",
 )
 
 /** Settings for fetching the current IP address using ipify. */
-data class IpifyConfig(
+data class IpifySettings(
   val url: String = "https://api.ipify.org",
 )

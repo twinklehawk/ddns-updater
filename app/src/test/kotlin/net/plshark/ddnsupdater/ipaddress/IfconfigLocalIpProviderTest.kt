@@ -4,7 +4,7 @@ import com.google.common.net.InetAddresses
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
-import net.plshark.ddnsupdater.IfconfigConfig
+import net.plshark.ddnsupdater.IfconfigSettings
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +21,7 @@ class IfconfigLocalIpProviderTest {
   fun setup() {
     server.start()
     val config =
-      IfconfigConfig(
+      IfconfigSettings(
         url = server.url("/").toString().dropLast(1),
       )
     provider = IfconfigLocalIpProvider(httpClient, config)
@@ -34,7 +34,7 @@ class IfconfigLocalIpProviderTest {
 
   @Test
   fun `throws an exception if the configured URL is empty`() {
-    assertThrows<IllegalStateException> { IfconfigLocalIpProvider(httpClient, IfconfigConfig("")) }
+    assertThrows<IllegalStateException> { IfconfigLocalIpProvider(httpClient, IfconfigSettings("")) }
   }
 
   @Test

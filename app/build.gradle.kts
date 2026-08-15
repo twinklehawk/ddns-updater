@@ -9,19 +9,21 @@ repositories {
 }
 
 dependencies {
-  implementation(libs.spring.boot.starter.webclient)
+  implementation(project(":namecheap-client"))
+  implementation(libs.guava)
   implementation(libs.jackson.kotlin)
   implementation(libs.kotlin.reflect)
   implementation(libs.kotlin.stdlib)
-  implementation(libs.guava)
-  implementation(libs.slf4j.api)
   implementation(libs.kotlinx.coroutines.reactor)
+  implementation(libs.slf4j.api)
+  implementation(libs.spring.boot.starter.webclient)
   runtimeOnly(libs.logback)
 
-  testImplementation(libs.junit)
-  testImplementation(libs.mockk)
+  testImplementation(project(":test-utils"))
   testImplementation(libs.assertj)
-  testImplementation(libs.mockwebserver)
+  testImplementation(libs.junit)
   testImplementation(libs.kotlinx.coroutines.test)
+  testImplementation(libs.mockk)
+  testImplementation(libs.mockwebserver)
   testRuntimeOnly(libs.junit.launcher)
 }

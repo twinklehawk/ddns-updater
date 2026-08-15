@@ -2,7 +2,7 @@ package net.plshark.ddnsupdater.ipaddress
 
 import com.google.common.net.InetAddresses
 import kotlinx.coroutines.future.await
-import net.plshark.ddnsupdater.IpifyConfig
+import net.plshark.ddnsupdater.IpifySettings
 import net.plshark.ddnsupdater.http.HttpUtils
 import java.net.Inet4Address
 import java.net.URI
@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
 /** A [LocalIpProvider] using ipify. */
 class IpifyLocalIpProvider(
   private val httpClient: HttpClient,
-  private val config: IpifyConfig,
+  private val config: IpifySettings,
 ) : LocalIpProvider {
   init {
     check(config.url.isNotEmpty()) { "Ipify URL cannot be empty" }

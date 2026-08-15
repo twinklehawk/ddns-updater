@@ -4,7 +4,7 @@ import com.google.common.net.InetAddresses
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
-import net.plshark.ddnsupdater.IpifyConfig
+import net.plshark.ddnsupdater.IpifySettings
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +21,7 @@ class IpifyLocalIpProviderTest {
   fun setup() {
     server.start()
     val config =
-      IpifyConfig(
+      IpifySettings(
         url = server.url("/").toString().dropLast(1),
       )
     provider = IpifyLocalIpProvider(httpClient, config)
@@ -34,7 +34,7 @@ class IpifyLocalIpProviderTest {
 
   @Test
   fun `throws an exception if the configured URL is empty`() {
-    assertThrows<IllegalStateException> { IpifyLocalIpProvider(httpClient, IpifyConfig("")) }
+    assertThrows<IllegalStateException> { IpifyLocalIpProvider(httpClient, IpifySettings("")) }
   }
 
   @Test

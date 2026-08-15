@@ -2,7 +2,7 @@ package net.plshark.ddnsupdater.ipaddress
 
 import com.google.common.net.InetAddresses
 import kotlinx.coroutines.future.await
-import net.plshark.ddnsupdater.IfconfigConfig
+import net.plshark.ddnsupdater.IfconfigSettings
 import net.plshark.ddnsupdater.http.HttpUtils
 import java.net.Inet4Address
 import java.net.URI
@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
 /** A [LocalIpProvider] using ifconfig. */
 class IfconfigLocalIpProvider(
   private val httpClient: HttpClient,
-  private val config: IfconfigConfig,
+  private val config: IfconfigSettings,
 ) : LocalIpProvider {
   init {
     check(config.url.isNotEmpty()) { "Ifconfig URL cannot be empty" }
