@@ -2,6 +2,7 @@ plugins {
   id("project-conventions")
   alias(libs.plugins.kotlin.spring)
   alias(libs.plugins.spring.boot)
+  alias(libs.plugins.spring.boot.aot)
 }
 
 repositories {
@@ -26,4 +27,5 @@ dependencies {
   testImplementation(libs.mockk)
   testImplementation(libs.mockwebserver)
   testRuntimeOnly(libs.junit.launcher)
+  testRuntimeOnly(libs.spring.boot.starter.test)
 }
